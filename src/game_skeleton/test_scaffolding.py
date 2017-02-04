@@ -1,9 +1,8 @@
 import unittest
 
-class TestStringMethods(unittest.TestCase):
+import game_skeleton.scaffolding as test_subject
+
+class TestGameSkeleton(unittest.TestCase):
 
     def test_nothing(self):
         self.assertEqual(True, False)
-
-if __name__ == '__main__':
-    unittest.main()
