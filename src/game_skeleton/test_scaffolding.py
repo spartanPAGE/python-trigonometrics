@@ -26,9 +26,15 @@ class TestGameSkeletonEventsStreaming(unittest.TestCase):
         self.assertTrue(game.is_example_event_in_events)
 
 
-class GameMockTimeAware(test_subject.GameSkeleton):
+class TimeAwareGameMock(test_subject.GameSkeleton):
     def __init__(self):
         super().__init__()
 
     def fetch_events(self):
         return ["todo;"]
+
+    def update(self, dt):
+        "todo"
+
+    def draw(self, dt):
+        "todo"
