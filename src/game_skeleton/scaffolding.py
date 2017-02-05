@@ -27,8 +27,9 @@ class GameSkeleton:
         pipe(self.fetch_events(), self.consume_events)
 
     def stream_time(self):
-        pipe(self.fetch_delta_time(), self.update)
-        pipe(self.fetch_delta_time(), self.draw)
+        delta_time = self.fetch_delta_time()
+        pipe(delta_time, self.update)
+        pipe(delta_time, self.draw)
 
     def run(self):
         while self.is_running:

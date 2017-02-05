@@ -29,12 +29,24 @@ class TestGameSkeletonEventsStreaming(unittest.TestCase):
 class TimeAwareGameMock(test_subject.GameSkeleton):
     def __init__(self):
         super().__init__()
+        self.dt = 0
 
-    def fetch_events(self):
-        return ["todo;"]
+    def fetch_delta_time(self):
+        self.dt += 1
+        return self.dt
 
     def update(self, dt):
-        "todo"
+        self.dt_of_last_update = dt
 
     def draw(self, dt):
-        "todo"
+        self.dt_of_last_draw = dt
+
+class TestGameSkeletonTimeStreaming(unittest.TestCase):
+    def test_time_is_streamed_properly(self):
+        game = TimeAwareGameMock()
+        self.assertEqual(game.dt, 0)
+
+        for i in range(1, 5):
+            game.stream_time()
+            self.assertEqual(i, game.dt_of_last_update)
+            self.assertEqual(i, game.dt_of_last_draw)
