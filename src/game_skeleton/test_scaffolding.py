@@ -22,6 +22,7 @@ class TestGameSkeleton(unittest.TestCase):
         game.stop()
         self.assertFalse(game.is_running)
 
+class TestGameSkeletonEventsStreaming(unittest.TestCase):
     def test_events_are_streamed_properly(self):
         game = GameMockWithEvents()
         game.stream_events()
