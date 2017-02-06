@@ -1,7 +1,6 @@
 from toolz.functoolz import pipe
 
 class GameSkeleton:
-
     def __init__(self):
         self.is_running = True
 
@@ -23,6 +22,9 @@ class GameSkeleton:
     def draw(self, dt):
         pass
 
+    def after_draw(self):
+        pass
+
     def stream_events(self):
         pipe(self.fetch_events(), self.consume_events)
 
@@ -30,6 +32,7 @@ class GameSkeleton:
         delta_time = self.fetch_delta_time()
         pipe(delta_time, self.update)
         pipe(delta_time, self.draw)
+        self.after_draw()
 
     def run(self):
         while self.is_running:
