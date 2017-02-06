@@ -50,3 +50,36 @@ class TestGameSkeletonTimeStreaming(unittest.TestCase):
             game.stream_time()
             self.assertEqual(i, game.dt_of_last_update)
             self.assertEqual(i, game.dt_of_last_draw)
+
+
+class LoopAwareGameMock(test_subject.GameSkeleton):
+    def __init__(self, loops):
+        super().__init__()
+        self.dt = 0
+        self.update_counter = 0
+        self.draw_counter = 0
+        self.DT_STOP_VAL = loops-1
+
+    def fetch_events(self):
+        return {'dt': self.dt}
+
+    def fetch_delta_time(self):
+        self.dt += 1
+        return self.dt
+
+    def consume_events(self, events):
+        if events['dt'] == self.DT_STOP_VAL:
+            self.stop()
+
+    def update(self, dt):
+        self.update_counter += 1
+
+    def draw(self, dt):
+        self.draw_counter += 1
+
+class TestGameSkeletonRunningAbility(unittest.TestCase):
+    def test_run_is_well_running_properly(self):
+        loops = 3
+        game = LoopAwareGameMock(loops)
+        game.run()
+        self.assertTrue(game.draw_counter == game.update_counter == loops)
