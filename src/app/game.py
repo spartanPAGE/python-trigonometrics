@@ -17,7 +17,7 @@ class Entity:
         self.pos = pos
 
     @property
-    def position():
+    def position(self):
         return this.pos
 
 class Primitive(Entity):
