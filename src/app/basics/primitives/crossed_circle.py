@@ -1,5 +1,7 @@
 from app.basics.primitives.bordered_circle import BorderedCircle
 from app.point import Point
+from app.basics.primitives import Line
+
 class CrossedCircle(BorderedCircle):
     def draw(self, dt, display):
         super().draw(dt, display)
