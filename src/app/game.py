@@ -10,9 +10,14 @@ class MousePoitingLine(Line):
     def __init__(self, pos, color, thickness):
         super().__init__(pos, pos, color, thickness)
 
-    def update(self, dt):
+    def update(self, *_):
         p = pygame.mouse.get_pos()
         self.ending_position = Point(*tuple(p))
+
+class FixedLengthMousePoitingLine(MousePoitingLine):
+    def update(self, *_):
+        super().update(*_)
+        #todo;
 
 class DisplayClearer:
     def __init__(self, color):
@@ -28,14 +33,14 @@ class Game(pygame_skeleton.PyGameSkeleton):
 
     def __init__(self):
         self.crossed_circle = CrossedCircle(Point(150, 150), 150, (255,)*3, (0,)*3, 3)
-        self.mouse_pointing_line = MousePoitingLine(Point(150, 150), (255, 0, 255), 3)
+        self.mouse_pointing_line = FixedLengthMousePoitingLine(Point(150, 150), (255, 0, 255), 3)
         super().__init__(*((self.crossed_circle.radius*2,)*2))
         pygame.display.set_caption(self.TITLE, self.ICONTITLE)
 
         self.updatables = [
             self.mouse_pointing_line
         ]
-        
+
         self.drawables = [
             DisplayClearer((0,)*3),
             self.crossed_circle,
