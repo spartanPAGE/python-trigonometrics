@@ -1,7 +1,7 @@
 import unittest
 import app.basics.primitives.bordered_circle as subject
 
-class CircleCreationCase(unittest.TestCase):
+class BorderedCircleCreationCase(unittest.TestCase):
     def test_creation(self):
         c = subject.BorderedCircle(1, 10, 'white', 'black', 3)
         self.assertEqual(c.position, 1)
