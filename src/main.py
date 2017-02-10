@@ -1,8 +1,8 @@
-import app.game as game
+import app.game
 
 def main():
-    with game.Guard():
-        game.Game().run()
+    with app.game.Guard():
+        app.game.Game().run()
 
 if __name__ == "__main__":
     main()

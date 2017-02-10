@@ -1,36 +1,12 @@
 import pygame
-import game_skeleton.pygame as game
 
-Guard = game.SystemGuard
+import game_skeleton.pygame as pygame_skeleton
+PyGameSkeleton = pygame_skeleton.PyGameSkeleton
+Guard = pygame_skeleton.SystemGuard
 
-class Point:
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
-
-    @property
-    def seq(self):
-        return [self.x, self.y]
+from app.point import Point
 
 
-    @staticmethod
-    def apply_mk_new(self, other, unit_func):
-        return Point(unit_func(self.x, other.x), unit_func(self.y, other.y))
-
-    def __add__(self, other):
-        return Point.apply_mk_new(self, other, lambda x, y: x+y)
-
-    def __sub__(self, other):
-        return Point.apply_mk_new(self, other, lambda x, y: x-y)
-
-    def __mul__(self, other):
-        return Point.apply_mk_new(self, other, lambda x, y: x-y)
-
-    def __truediv__(self, other):
-        return Point.apply_mk_new(self, other, lambda x, y: x/y)
-
-    def __floordiv__(self, other):
-        return Point.apply_mk_new(self, other, lambda x, y: x//y)
 
 class Entity:
     def __init__(self, pos):
@@ -94,7 +70,7 @@ class UnitCircle(BorderedCircle):
                  self.color, self.stored_thickness).draw(dt, display)
 
 
-class Game(game.PyGameSkeleton):
+class Game(pygame_skeleton.PyGameSkeleton):
     WINDOW_SIZE = (640,)*2
     TITLE = 'trigonometrics'
     ICONTITLE = ''
