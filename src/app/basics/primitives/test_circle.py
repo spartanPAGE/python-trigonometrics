@@ -6,5 +6,6 @@ class CircleCreationCase(unittest.TestCase):
         c = subject.Circle(1, 10, 'white', 'thick')
         self.assertEqual(c.position, 1)
         self.assertEqual(c.radius, 10)
+        self.assertEqual(c.diameter, c.radius*2)
         self.assertEqual(c.color, 'white')
         self.assertEqual(c.thickness, 'thick')
