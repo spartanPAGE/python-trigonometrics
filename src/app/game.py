@@ -39,7 +39,8 @@ class Label(Entity):
         self.text_surface = None
 
     def generate_text_surface(self, antialiasing_flag=1):
-        self.text_surface = self.font.render(self.text, antialiasing_flag, color)
+        render_data = (self.text, antialiasing_flag, self.color)
+        self.text_surface = self.font.render(*render_data)
 
     def update(self, dt):
         text = self.text_supplier()
@@ -48,7 +49,7 @@ class Label(Entity):
             self.generate_text_surface()
 
     def draw(self, dt, display):
-        display.blit(self.text_surface, self.pos)
+        display.blit(self.text_surface, tuple(self.pos.seq))
 
 class DisplayClearer:
     def __init__(self, color):
@@ -63,19 +64,27 @@ class Game(pygame_skeleton.PyGameSkeleton):
     ICONTITLE = ''
 
     def __init__(self):
-        self.crossed_circle = CrossedCircle(Point(150, 150), 150, (255,)*3, (0,)*3, 3)
-        self.mouse_pointing_line = FixedLengthMousePointingLine(Point(150, 150), (255, 0, 255), 3, self.crossed_circle.radius)
-        super().__init__(*((self.crossed_circle.radius*2,)*2))
+        circle = CrossedCircle(Point(150, 150), 150, (255,)*3, (0,)*3, 3)
+        super().__init__(*((circle.radius*2,)*2))
         pygame.display.set_caption(self.TITLE, self.ICONTITLE)
 
+        self.mouse_pointing_line = FixedLengthMousePointingLine(Point(150, 150), (255, 0, 255), 3, circle.radius)
+        self.crossed_circle = circle
+        self.font = pygame.font.SysFont("monospace", 15)
+
+        text_supplier = lambda: 'angle ~~ ' + str(math.degrees(round(self.mouse_pointing_line.angle_in_rads, 4)))
+        self.angle_label = Label(Point(30, 30), self.font, (50, 255, 100), text_supplier)
+
         self.updatables = [
-            self.mouse_pointing_line
+            self.mouse_pointing_line,
+            self.angle_label
         ]
 
         self.drawables = [
             DisplayClearer((0,)*3),
             self.crossed_circle,
-            self.mouse_pointing_line
+            self.mouse_pointing_line,
+            self.angle_label
         ]
 
 
