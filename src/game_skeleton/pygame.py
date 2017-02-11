@@ -3,9 +3,11 @@ import pygame
 
 def initialize():
     pygame.init()
+    pygame.font.init()
 
 def finalize():
     pygame.quit()
+    pygame.font.quit()
 
 class SystemGuard:
     def __enter__(self):

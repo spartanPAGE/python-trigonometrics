@@ -1,5 +1,6 @@
 import unittest
 import app.point as subject
+import math
 
 class PointCreationCase(unittest.TestCase):
     def test_creation(self):
@@ -28,3 +29,7 @@ class PointArithmeticsCase(unittest.TestCase):
     def test_floordivision(self):
         p = subject.Point(5, 6) // subject.Point(-3, 4)
         self.assertEqual(p.seq, [5//(-3), 6//4])
+
+    def test_length(self):
+        p = subject.Point(3, 4)
+        self.assertTrue(math.isclose(float(p.length), 5., rel_tol=1e-9, abs_tol=0.0))

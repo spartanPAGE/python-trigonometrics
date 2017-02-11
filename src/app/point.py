@@ -7,6 +7,9 @@ class Point:
     def seq(self):
         return [self.x, self.y]
 
+    @property
+    def length(self):
+        return sum((self*self).seq) ** (0.5)
 
     @staticmethod
     def apply_mk_new(self, other, unit_func):
