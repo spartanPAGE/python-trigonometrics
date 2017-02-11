@@ -58,6 +58,21 @@ class DisplayClearer:
     def draw(self, dt, display):
         display.fill(self.color)
 
+def rads_to_angle(rads):
+    return math.degrees(rads)
+
+def fix_angle_to_360(angle, point):
+    angle = abs(angle)
+    if point.y < 0:
+        return 360-angle
+    return angle
+
+def angle_text(rads, delta_pos):
+    angle = rads_to_angle(rads)
+    return 'angle ~~ ' + str(round(fix_angle_to_360(angle, delta_pos), 4))
+
+
+
 
 class Game(pygame_skeleton.PyGameSkeleton):
     TITLE = 'trigonometrics'
@@ -65,15 +80,15 @@ class Game(pygame_skeleton.PyGameSkeleton):
 
     def __init__(self):
         circle = CrossedCircle(Point(150, 150), 150, (255,)*3, (0,)*3, 3)
-        super().__init__(*((circle.radius*2,)*2))
+        super().__init__(circle.diameter, circle.diameter+100)
         pygame.display.set_caption(self.TITLE, self.ICONTITLE)
 
         self.mouse_pointing_line = FixedLengthMousePointingLine(Point(150, 150), (255, 0, 255), 3, circle.radius)
         self.crossed_circle = circle
         self.font = pygame.font.SysFont("monospace", 15)
 
-        text_supplier = lambda: 'angle ~~ ' + str(math.degrees(round(self.mouse_pointing_line.angle_in_rads, 4)))
-        self.angle_label = Label(Point(30, 30), self.font, (50, 255, 100), text_supplier)
+        text_supplier = lambda: angle_text(self.mouse_pointing_line.angle_in_rads, self.delta_pos_for_label())
+        self.angle_label = Label(Point(30, 30+circle.diameter), self.font, (50, 255, 100), text_supplier)
 
         self.updatables = [
             self.mouse_pointing_line,
@@ -87,6 +102,8 @@ class Game(pygame_skeleton.PyGameSkeleton):
             self.angle_label
         ]
 
+    def delta_pos_for_label(self):
+        return self.mouse_pointing_line.starting_position - self.mouse_pointing_line.ending_position
 
     def update(self, dt):
         [updatable.update(dt) for updatable in self.updatables]
