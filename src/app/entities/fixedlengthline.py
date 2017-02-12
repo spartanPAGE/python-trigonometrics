@@ -1,4 +1,5 @@
 from app.basics.primitives import Line
+from app.point import Point
 import math
 
 class FixedLengthLine(Line):
