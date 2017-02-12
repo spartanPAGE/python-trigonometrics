@@ -1,1 +1,1 @@
-Todo: fancy project description ![Alt text](docs/example-run.png?raw=true "Title")
+Todo: fancy project description ![Alt text](docs/trigonometrics-example.gif?raw=true "run")
