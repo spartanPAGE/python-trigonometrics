@@ -1,42 +1,16 @@
 import pygame
 import game_skeleton.pygame as pygame_skeleton
+
 PyGameSkeleton = pygame_skeleton.PyGameSkeleton
 Guard = pygame_skeleton.SystemGuard
-import math
+
 
 from app.point import Point
 from app.basics.primitives import CrossedCircle, Line
 from app.basics.entity import Entity
 from app.entities.fixedlengthline import FixedLengthLine
-
-class Label(Entity):
-    def __init__(self, pos, font, color, text_supplier):
-        super().__init__(pos)
-        self.font = font
-        self.color = color
-        self.text_supplier = text_supplier
-        self.text = ''
-        self.text_surface = None
-
-    def generate_text_surface(self, antialiasing_flag=1):
-        render_data = (self.text, antialiasing_flag, self.color)
-        self.text_surface = self.font.render(*render_data)
-
-    def update(self, dt):
-        text = self.text_supplier()
-        if(text != self.text):
-            self.text = text
-            self.generate_text_surface()
-
-    def draw(self, dt, display):
-        display.blit(self.text_surface, tuple(self.pos.seq))
-
-class DisplayClearer:
-    def __init__(self, color):
-        self.color = color
-
-    def draw(self, dt, display):
-        display.fill(self.color)
+from app.gui import DisplayClearer, Label
+import math
 
 def rads_to_angle(rads):
     return math.degrees(rads)
@@ -50,9 +24,6 @@ def fix_angle_to_360(angle, point):
 def angle_text(rads, delta_pos):
     angle = rads_to_angle(rads)
     return 'angle ~~ ' + str(round(fix_angle_to_360(angle, delta_pos), 4))
-
-
-
 
 class Game(pygame_skeleton.PyGameSkeleton):
     TITLE = 'trigonometrics'
