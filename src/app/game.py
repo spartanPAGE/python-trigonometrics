@@ -7,27 +7,7 @@ import math
 from app.point import Point
 from app.basics.primitives import CrossedCircle, Line
 from app.basics.entity import Entity
-
-class FixedLengthMousePointingLine(Line):
-    def __init__(self, pos, color, thickness, length):
-        super().__init__(pos, pos, color, thickness)
-        self.length = length
-
-    def update(self, *_):
-        self.ending_position = Point(*pygame.mouse.get_pos())
-        self.fix_length()
-
-    def fix_length(self):
-        delta_pos = self.ending_position - self.starting_position
-        alpha = self.angle_in_rads
-        x = self.length * math.cos(alpha)
-        y = self.length * math.sin(alpha)
-        self.ending_position = Point(x, y)+self.starting_position
-
-    @property
-    def angle_in_rads(self):
-        delta_pos = self.ending_position - self.starting_position
-        return math.atan2(delta_pos.y, delta_pos.x)
+from app.entities.fixedlengthline import FixedLengthLine
 
 class Label(Entity):
     def __init__(self, pos, font, color, text_supplier):
@@ -83,7 +63,13 @@ class Game(pygame_skeleton.PyGameSkeleton):
         super().__init__(circle.diameter, circle.diameter+100)
         pygame.display.set_caption(self.TITLE, self.ICONTITLE)
 
-        self.mouse_pointing_line = FixedLengthMousePointingLine(Point(150, 150), (255, 0, 255), 3, circle.radius)
+        mouse_args = ((255, 0, 255), 3, circle.radius,
+            lambda: circle.pos,
+            lambda: Point(*pygame.mouse.get_pos()),
+        )
+
+        self.mouse_pointing_line = FixedLengthLine(*mouse_args)
+
         self.crossed_circle = circle
         self.font = pygame.font.SysFont("monospace", 15)
 
