@@ -25,13 +25,19 @@ def angle_text(rads, delta_pos):
     angle = rads_to_angle(rads)
     return 'angle ~~ ' + str(round(fix_angle_to_360(angle, delta_pos), 4))
 
+def trig_fucs_text(rads, delta_pos):
+    angle = rads_to_angle(rads)
+    rads = math.radians(fix_angle_to_360(angle, delta_pos))
+    trig = (math.sin(rads), math.cos(rads), math.tan(rads))
+    return 'sin: {0:.4f}, cos: {1:.4f}, tan: {2:.4f}'.format(*trig)
+
 class Game(pygame_skeleton.PyGameSkeleton):
     TITLE = 'trigonometrics'
     ICONTITLE = ''
 
     def __init__(self):
         circle = CrossedCircle(Point(150, 150), 150, (255,)*3, (0,)*3, 3)
-        super().__init__(circle.diameter, circle.diameter+100)
+        super().__init__(circle.diameter+100, circle.diameter+100)
         pygame.display.set_caption(self.TITLE, self.ICONTITLE)
 
         mouse_args = ((255, 0, 255), 3, circle.radius,
@@ -47,16 +53,21 @@ class Game(pygame_skeleton.PyGameSkeleton):
         text_supplier = lambda: angle_text(self.mouse_pointing_line.angle_in_rads, self.delta_pos_for_label())
         self.angle_label = Label(Point(30, 30+circle.diameter), self.font, (50, 255, 100), text_supplier)
 
+        trig_funcs_supp = lambda: trig_fucs_text(self.mouse_pointing_line.angle_in_rads, self.delta_pos_for_label())
+        self.trig_funcs_label = Label(Point(30, 60+circle.diameter), self.font, (50, 255, 100), trig_funcs_supp)
+
         self.updatables = [
             self.mouse_pointing_line,
-            self.angle_label
+            self.angle_label,
+            self.trig_funcs_label
         ]
 
         self.drawables = [
             DisplayClearer((0,)*3),
             self.crossed_circle,
             self.mouse_pointing_line,
-            self.angle_label
+            self.angle_label,
+            self.trig_funcs_label
         ]
 
     def delta_pos_for_label(self):
