@@ -9,7 +9,7 @@ class FixedLengthLineCase(unittest.TestCase):
         length = 5
         spos_supp = lambda: Point(0, 0)
         epos_supp = lambda: Point(5, 0)
-        line = subject.FixedLengthLine(color, thickness, spos_supp, epos_supp)
+        line = subject.FixedLengthLine(color, thickness, length, spos_supp, epos_supp)
 
         line.update()
         self.assertEqual(line.length, 5)
