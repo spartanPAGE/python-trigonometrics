@@ -33,3 +33,12 @@ class PointArithmeticsCase(unittest.TestCase):
     def test_length(self):
         p = subject.Point(3, 4)
         self.assertTrue(math.isclose(float(p.length), 5., rel_tol=1e-9, abs_tol=0.0))
+
+    def test_equality(self):
+        p1 = subject.Point(0, 0)
+        p2 = subject.Point(1, 1)
+        p3 = subject.Point(1, 1)
+
+        self.assertNotEqual(p1, p2)
+        self.assertNotEqual(p1, p3)
+        self.assertEqual(p2, p3)

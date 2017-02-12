@@ -29,3 +29,6 @@ class Point:
 
     def __floordiv__(self, other):
         return Point.apply_mk_new(self, other, lambda x, y: x//y)
+
+    def __eq__(self, other):
+        return self.x == other.x and self.y == other.y
